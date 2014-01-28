@@ -1,0 +1,26 @@
+<!DOCTYPE REPORT [
+  <!ELEMENT collection (description,recipe*)>
+  <!ATTLIST collection id ID #REQUIRED>
+  <!ELEMENT description ANY>
+  <!ELEMENT recipe (title,ingredient*,preparation,comment?,nutrition)>
+  <!ELEMENT title (#PCDATA)>
+  <!ELEMENT ingredient (ingredient*,preparation)?>
+  <!ATTLIST ingredient name CDATA #REQUIRED>
+  <!ATTLIST ingredient amount CDATA #IMPLIED>
+  <!ATTLIST ingredient unit CDATA #IMPLIED>
+  <!ELEMENT preparation (step*)>
+  <!ELEMENT step (#PCDATA)>
+  <!ELEMENT comment (#PCDATA)>
+  <!ELEMENT nutrition EMPTY>
+  <!ATTLIST nutrition protein CDATA #REQUIRED>
+  <!ATTLIST nutrition carbohydrates CDATA #FIXED "200">
+  <!ATTLIST nutrition fat CDATA #REQUIRED>
+  <!ATTLIST nutrition calories CDATA #REQUIRED>
+  <!ATTLIST nutrition alcohol CDATA "521">
+  <!ENTITY general "General Entity can referenced, Paramenter Entities not within internal subset of Doctype Declaration">
+  <!ENTITY % parameter "(title,ingredient*,preparation,comment?,nutrition)">
+  <!NOTATION bakschisch PUBLIC "abrakadabra">
+  <!NOTATION blau SYSTEM "file:///root/home.txt">
+  <!NOTATION turkies PUBLIC "http://banane.de/color/turkish">
+]>
+<root></root>

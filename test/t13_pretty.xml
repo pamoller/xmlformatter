@@ -1,0 +1,5 @@
+<root>
+  <child>unformatiert</child>
+  <?pi a processing instruction?>
+  <child><?pi a second processing instruction?>text <cover>inside</cover></child>
+</root>

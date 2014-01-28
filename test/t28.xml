@@ -1,0 +1,7 @@
+<root>
+  <child>inline text followed by block<block>
+      <item>value1</item>
+      <item>value2</item>
+    </block>that may rendered in object style?
+  </child>
+</root>

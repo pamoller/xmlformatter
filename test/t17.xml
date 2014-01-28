@@ -1,0 +1,7 @@
+<root>
+	<child>Die Frau im Wald ist <![CDATA[<< oder >
+
+  abc]]> als die Frau im See!
+  </child>
+  <child><![CDATA[ &aber;
+  hallo]]></child></root>

@@ -1,0 +1,8 @@
+include CHANGES.txt
+include LICENSE.txt
+include PKG-INFO
+include README.rst
+include bin/xmlformat
+include xmlformatter.py
+include test/test_xmlformatter.py
+include test/*.xml
