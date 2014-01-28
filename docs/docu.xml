@@ -156,9 +156,9 @@ formatter.format_file("/home/pa/doc.xml")</programlisting>
 <section><title>Cmd</title>
 <programlisting language="bash"><![CDATA[xmlformat [--preserve "pre,literal"] [--compress] [--indent num] [--indent-char char]
           [--outfile file] [--encoding enc] [--outencoding enc] [--disable-inlineformatting] 
-          [--dispable-correction][--help] <--infile file|file>]]></programlisting></section>
+          [--dispable-correction][--help] <--infile file | file | ->]]></programlisting></section>
 <para>xmlformat can read from STDIN, like:</para>
-<programlisting language="bash">$ cat /home/pa/doc.xml | xmlformat</programlisting>
+<programlisting language="bash">$ cat /home/pa/doc.xml | xmlformat -</programlisting>
 <section><title>Notes</title>
 <para>Remove XmlFormatter before installing xmlformatter:</para>
 <programlisting language="bash">$ pip uninstall XmlFormatter</programlisting>

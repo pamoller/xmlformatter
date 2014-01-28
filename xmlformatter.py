@@ -62,11 +62,16 @@ class Formatter():
 			return strg.encode(self.encoding_effective) # v3
 		return strg.decode('utf-8').encode(self.encoding_effective) # v2
 
-	def enc_output(self, fh, strg):
+	def enc_output(self, path, strg):
 		""" Output according to encoding """
-		if sys.version_info > (3, 0):
-			return fh.buffer.write(strg)
-		fh.write(strg)
+		fh = sys.stdout
+		if strg is not None:
+			if path is not None:
+				open(path, "w+b").write(strg)
+			elif sys.version_info > (3, 0):
+				fh.buffer.write(strg)
+			else:
+				fh.write(strg)
 
 	def format_string(self, xmldoc=""):
 		""" Format a XML document given by xmldoc """
@@ -652,13 +657,15 @@ class Formatter():
 def cli_usage(msg=""):
 	""" Output usage for command line tool. """
 	sys.stderr.write(msg+"\n")
-	sys.stderr.write('Usage: xmlformat [--preserve "pre,literal"] [--compress]\
- [--indent num] [--indent-char char] [--outfile file] [--encoding enc] [--outencoding enc]\
- [--disable-inlineformatting] [--disable-correction] [--help] <--infile file|file>')
+	sys.stderr.write("Usage: xmlformat [--preserve \"pre,literal\"]\
+ [--compress] [--indent num] [--indent-char char] [--outfile file]\
+ [--encoding enc] [--outencoding enc] [--disable-inlineformatting]\
+ [--disable-correction] [--help] <--infile file | file | - >\n")
 	sys.exit(2)
 
 def cli():
 	""" Launch xmlformatter from command line. """
+	res = None
 	indent = DEFAULT_INDENT
 	indent_char = DEFAULT_INDENT_CHAR
 	outfile = None
@@ -670,7 +677,7 @@ def cli():
 	inline = DEFAULT_INLINE
 	correct = DEFAULT_CORRECT
 	try:
-		opts, args = getopt.getopt(sys.argv[1:], "", [ "compress", "disable-correction", "disable-inlineformatting", "encoding=", "help", "infile", "indent=", "indent-char=", "outfile=", "outencoding=", "preserve="])
+		opts, args = getopt.getopt(sys.argv[1:], "", [ "compress", "disable-correction", "disable-inlineformatting", "encoding=", "help", "infile=", "indent=", "indent-char=", "outfile=", "outencoding=", "preserve="])
 	except getopt.GetoptError as err:
 		cli_usage(str(err))
 	for key, value in opts:
@@ -701,16 +708,14 @@ def cli():
 		if (infile):
 			res = formatter.format_file(infile)
 		elif (len(args) > 0):
-			res = formatter.format_file(args[0])
-		else:
-			res = formatter.format_string("".join(sys.stdin.readlines()))
+			if (args[0] == "-"):
+				res = formatter.format_string("".join(sys.stdin.readlines()))
+			else:
+				res = formatter.format_file(args[0])
 	except xml.parsers.expat.ExpatError as err:
 		cli_usage("XML error: %s" %err)
 	except IOError as err:
 		cli_usage("IO error: %s" %err)
 	except:
 		cli_usage("Unkonwn error")
-	if (outfile):
-		open(outfile, "w+b").write(res)
-	else:
-		formatter.enc_output(sys.stdout, res)
+	formatter.enc_output(outfile, res)

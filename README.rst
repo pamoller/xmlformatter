@@ -171,13 +171,13 @@ Cmd
 
     xmlformat [--preserve "pre,literal"] [--compress] [--indent num] [--indent-char char]
               [--outfile file] [--encoding enc] [--outencoding enc] [--disable-inlineformatting] 
-              [--dispable-correction][--help] <--infile file|file>
+              [--dispable-correction][--help] <--infile file | file | ->
 
 xmlformat can read from STDIN, like:
 
 ::
 
-    $ cat /home/pa/doc.xml | xmlformat
+    $ cat /home/pa/doc.xml | xmlformat -
 
 =====
 Notes
