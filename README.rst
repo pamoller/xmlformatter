@@ -8,8 +8,7 @@ xmlformatter
 Formatting Rules
 ================
 
-xmlformatter treats the element content from the following example as a object. The elements are associated with 
-  containers, like complex, or properties names, like real and imaginary. Text nodes are associated with property values, like 4.4E+12. Leading and trailing whitespaces are meaningless in this scenario like sequences of whitespaces. Leading and trailing whitespaces will be remove, sequences of whitespaces will be collapsed.
+xmlformatter treats the element content from the following example as a object. The elements are associated with containers, like complex, or properties names, like real and imaginary. Text nodes are associated with property values, like 4.4E+12. Leading and trailing whitespaces are meaningless in this scenario like sequences of whitespaces. Leading and trailing whitespaces will be remove, sequences of whitespaces will be collapsed.
 
 ::
 
