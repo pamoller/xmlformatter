@@ -1,7 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text auto
 
-*.py text eol=lf
-*.rst text eol=lf
-*.xml text eol=lf
-Makefile text eol=lf
+*.py text eol=binary
+*.rst text eol=binary
+*.xml text eol=binary
+Makefile text eol=binary
