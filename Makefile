@@ -15,4 +15,4 @@ regress:
 	cd test && python test_xmlformatter.py
 
 upload: regress
-	python setup.py upload sdist
+	python setup.py sdist upload

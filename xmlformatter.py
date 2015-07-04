@@ -6,7 +6,7 @@ import sys
 import getopt
 import xml.parsers.expat
 
-__version__  = "0.1.0"
+__version__  = "0.1.1"
 
 DEFAULT_COMPRESS = False
 DEFAULT_CORRECT = True
@@ -395,6 +395,8 @@ class Formatter():
 		def attribute(self, key, value):
 			if (key and value):
 				return " %s=\"%s\"" %(key, value)
+			elif (key):
+				return " %s=\"\"" %(key)
 			return ""
 
 		def indent_insert(self):

@@ -35,6 +35,7 @@ class TestXmlFormatter(unittest.TestCase):
 		self.assertEqual(self.formatter.format_file("t26.xml"), self.readfile("t26.xml"))
 		self.assertEqual(self.formatter.format_file("t27.xml"), self.readfile("t27.xml"))
 		self.assertEqual(self.formatter.format_file("t28.xml"), self.readfile("t28_pretty.xml"))
+		self.assertEqual(self.formatter.format_file("t31.xml"), self.readfile("t31_pretty.xml"))
 
 	def test_disable_inline_formatting(self):
 		self.formatter = xmlformatter.Formatter(inline=False)
@@ -83,6 +84,7 @@ class TestXmlFormatter(unittest.TestCase):
 	def test_disable_correction(self):
 		self.formatter = xmlformatter.Formatter(correct = False)
 		self.assertEqual(self.formatter.format_file("t1.xml"), self.readfile("t1.xml"))
+
 
 	#TODO cmd testing
 	#def test_file_options(self):

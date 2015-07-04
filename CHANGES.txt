@@ -1,1 +1,3 @@
-v0.1.0, 2014-01.25 -- Initial relase (Replaces XmlFormatter) 
+v0.1.0, 2014-01-25 -- Initial relase (Replaces XmlFormatter)
+
+v0.1.1 2015-07-04 -- Keep empty attribute-nodes in the documents 
