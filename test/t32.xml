@@ -1,0 +1,1 @@
+<ogc:Filter someattrib="example with encoded chars &lt; &gt; that should stay encoded"><ogc:PropertyIsEqualTo><ogc:PropertyName>stationid_alpha</ogc:PropertyName><ogc:Literal>val</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Filter>

@@ -76,6 +76,7 @@ class TestXmlFormatter(unittest.TestCase):
 		self.assertEqual(self.formatter.format_file("t16.xml"), self.readfile("t16_compressed.xml"))
 		self.assertEqual(self.formatter.format_file("t17.xml"), self.readfile("t17_compressed.xml"))
 		self.assertEqual(self.formatter.format_file("t20.xml"), self.readfile("t20_compressed.xml"))
+		#self.assertEqual(self.formatter.format_file("t32.xml"), self.readfile("t32.xml"))
 
 	def test_compressed_precede(self):
 		self.formatter = xmlformatter.Formatter(preserve=["precede"], compress=True)
