@@ -820,7 +820,7 @@ def cli():
             correct=correct,
         )
         input_file = None
-        if infile: 
+        if infile:
             input_file = infile
             res = formatter.format_file(input_file)
         elif len(args) > 0:
