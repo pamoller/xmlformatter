@@ -743,7 +743,7 @@ def cli_usage(msg=""):
         'Usage: xmlformat [--preserve "pre,literal"]\
  [--compress] [--indent num] [--indent-char char] [--outfile file]\
  [--encoding enc] [--outencoding enc] [--disable-inlineformatting]\
- [--disable-correction] [--help] <--infile file | file | - >\n'
+ [--overwrite] [--disable-correction] [--help] <--infile file | file | - >\n'
     )
     sys.exit(2)
 
@@ -754,6 +754,7 @@ def cli():
     indent = DEFAULT_INDENT
     indent_char = DEFAULT_INDENT_CHAR
     outfile = None
+    overwrite = False
     preserve = []
     compress = DEFAULT_COMPRESS
     infile = None
@@ -776,6 +777,7 @@ def cli():
                 "indent-char=",
                 "outfile=",
                 "outencoding=",
+                "overwrite",
                 "preserve=",
             ],
         )
@@ -804,6 +806,8 @@ def cli():
             inline = False
         elif key in ["--disable-correction"]:
             correct = False
+        elif key in ["--overwrite"]:
+            overwrite = True
     try:
         formatter = Formatter(
             indent=indent,
@@ -815,17 +819,25 @@ def cli():
             inline=inline,
             correct=correct,
         )
-        if infile:
-            res = formatter.format_file(infile)
+        input_file = None
+        if infile: 
+            input_file = infile
+            res = formatter.format_file(input_file)
         elif len(args) > 0:
             if args[0] == "-":
                 res = formatter.format_string("".join(sys.stdin.readlines()))
             else:
-                res = formatter.format_file(args[0])
+                input_file = args[0]
+                res = formatter.format_file(input_file)
+
     except xml.parsers.expat.ExpatError as err:
         cli_usage("XML error: %s" % err)
     except IOError as err:
         cli_usage("IO error: %s" % err)
     except:
         cli_usage("Unkonwn error")
-    formatter.enc_output(outfile, res)
+
+    if overwrite:
+        formatter.enc_output(input_file, res)
+    else:
+        formatter.enc_output(outfile, res)
