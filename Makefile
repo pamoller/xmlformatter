@@ -15,4 +15,5 @@ regress:
 	cd test && python test_xmlformatter.py
 
 upload: regress
-	python setup.py sdist upload
+	#python setup.py sdist upload
+	python -m twine upload dist/*

@@ -180,6 +180,7 @@ xmlformat can read from STDIN, like:
     $ cat /home/pa/doc.xml | xmlformat -
 
 Use --overwrite for inplace edits, see https://pre-commit.com/
+
 =====
 Notes
 =====
