@@ -2,6 +2,7 @@ import io
 import os
 import unittest
 import xmlformatter
+import shutil
 
 class TestXmlFormatter(unittest.TestCase):
 	
@@ -86,6 +87,11 @@ class TestXmlFormatter(unittest.TestCase):
 		self.formatter = xmlformatter.Formatter(correct = False)
 		self.assertEqual(self.formatter.format_file("t1.xml"), self.readfile("t1.xml"))
 
+	def test_overwrite(self):
+		shutil.copyfile("t1.xml", "t1_copy.xml")
+		os.system("xmlformat --overwrite t1_copy.xml")
+		self.assertEqual(self.readfile("t1_copy.xml"), self.readfile("t1_pretty.xml"))
+	
 
 	#TODO cmd testing
 	#def test_file_options(self):
