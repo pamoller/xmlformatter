@@ -88,7 +88,7 @@ Class
 
 ::
 
-    class xmlformatter.Formatter(compress ::= False, selfclose ::= False, indent ::= 2, indent_char ::= " ", inline ::= True, encoding_input ::= None, encoding_output ::= None, preserve ::= [ ])
+    class xmlformatter.Formatter(compress ::= False, selfclose ::= False, indent ::= 2, indent_char ::= " ", inline ::= True, encoding_input ::= None, encoding_output ::= None, preserve ::= [ ], blanks ::= False)
 
 The Formatter class can be used to format XML documents in scripts. By default all parts of the XML document will formatted. All descendants of elements listed by preserve are left unformatted. Setting the boolean property compress to True suppresses the indenting given by the indent and indent_char properties. Without a value given to encoding_input xmlformatter trys to determine the encoding from the XML document. On failure it use UTF-8 as default. encoding_output advises xmlformatter to encode the output explicit by the given value. Otherwise xmlformatter use the inpurt encoding. Setting the boolean property inline to False suppresses inline formatting. By default element content will be formatted everywhere - also within mixed content. The following example shows the usage of the xmlfromatter class:
 
@@ -153,6 +153,12 @@ Encode the formatted XML document by a not None value.
 
 Skip formatting for all elements listed in preserve and all their descendants.
 
+::
+
+    blanks ::= False
+
+Keep blank lines. Multiple lines are collapsed into one.
+
 =======
 Methods
 =======
@@ -175,7 +181,7 @@ Cmd
 
 ::
 
-    xmlformat [--preserve "pre,literal"] [--compress] [--selfclose] [--indent num] [--indent-char char]
+    xmlformat [--preserve "pre,literal"] [--blanks] [--compress] [--selfclose] [--indent num] [--indent-char char]
               [--overwrite] [--outfile file] [--encoding enc] [--outencoding enc] [--disable-inlineformatting] 
               [--dispable-correction] [--help] < --infile file | file | - >
 
