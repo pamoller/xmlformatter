@@ -8,6 +8,7 @@ import xml.parsers.expat
 
 __version__ = "0.2.0"
 
+DEFAULT_BLANKS = False
 DEFAULT_COMPRESS = False
 DEFAULT_CORRECT = True
 DEFAULT_INDENT = 2
@@ -25,6 +26,7 @@ class Formatter:
         self,
         indent=DEFAULT_INDENT,
         preserve=[],
+        blanks=DEFAULT_BLANKS,
         compress=DEFAULT_COMPRESS,
         indent_char=DEFAULT_INDENT_CHAR,
         encoding_input=DEFAULT_ENCODING_INPUT,
@@ -48,6 +50,8 @@ class Formatter:
         self.inline = inline
         # Don't compress this elements and their descendants:
         self.preserve = preserve
+        # Preserve blanks lines (collapse multiple into one)
+        self.blanks = blanks
 
     @property
     def encoding_effective(self, enc=None):
@@ -523,7 +527,10 @@ class Formatter:
             if not self.preserve and not self.cdata_section:
                 # remove empty tokens always in element content!
                 if self.empty and not self.descendant_mixed:
-                    str = ""
+                    if self.formatter.blanks and not self.formatter.compress and re.match(r"\s*\n\s*\n\s*", str):
+                        str = "\n"
+                    else:
+                        str = ""
                 else:
                     if self.correct:
                         str = re.sub(r"\r\n", "\n", str)
@@ -740,7 +747,7 @@ def cli_usage(msg=""):
     """ Output usage for command line tool. """
     sys.stderr.write(msg + "\n")
     sys.stderr.write(
-        'Usage: xmlformat [--preserve "pre,literal"]\
+        'Usage: xmlformat [--preserve "pre,literal"] [--blanks]\
  [--compress] [--indent num] [--indent-char char] [--outfile file]\
  [--encoding enc] [--outencoding enc] [--disable-inlineformatting]\
  [--overwrite] [--disable-correction] [--help] <--infile file | file | - >\n'
@@ -756,6 +763,7 @@ def cli():
     outfile = None
     overwrite = False
     preserve = []
+    blanks = False
     compress = DEFAULT_COMPRESS
     infile = None
     encoding = DEFAULT_ENCODING_INPUT
@@ -779,6 +787,7 @@ def cli():
                 "outencoding=",
                 "overwrite",
                 "preserve=",
+                "blanks",
             ],
         )
     except getopt.GetoptError as err:
@@ -788,6 +797,8 @@ def cli():
             indent = value
         elif key in ["--preserve"]:
             preserve = value.replace(",", " ").split()
+        elif key in ["--blanks"]:
+            blanks = True
         elif key in ["--help"]:
             cli_usage()
         elif key in ["--compress"]:
@@ -812,6 +823,7 @@ def cli():
         formatter = Formatter(
             indent=indent,
             preserve=preserve,
+            blanks=blanks,
             compress=compress,
             encoding_input=encoding,
             encoding_output=outencoding,
