@@ -10,6 +10,7 @@ __version__ = "0.2.0"
 
 DEFAULT_BLANKS = False
 DEFAULT_COMPRESS = False
+DEFAULT_SELFCLOSE = False
 DEFAULT_CORRECT = True
 DEFAULT_INDENT = 2
 DEFAULT_INDENT_CHAR = " "
@@ -28,6 +29,7 @@ class Formatter:
         preserve=[],
         blanks=DEFAULT_BLANKS,
         compress=DEFAULT_COMPRESS,
+        selfclose=DEFAULT_SELFCLOSE,
         indent_char=DEFAULT_INDENT_CHAR,
         encoding_input=DEFAULT_ENCODING_INPUT,
         encoding_output=DEFAULT_ENCODING_OUTPUT,
@@ -36,6 +38,8 @@ class Formatter:
     ):
         # Minify the XML document:
         self.compress = compress
+        # Use self-closing tags
+        self.selfclose = selfclose
         # Correct text nodes
         self.correct = correct
         # Decode the XML document:
@@ -636,7 +640,7 @@ class Formatter:
             str = ""
             # Don't close empty nodes on compression mode:
             if (
-                not self.formatter.compress
+                not (self.formatter.compress or self.formatter.selfclose)
                 or self.list[self.pos - 1].name != "StartElement"
             ):
                 if self.preserve in [0] and self.indent:
@@ -714,7 +718,7 @@ class Formatter:
             str += "<%s" % self.arg[0]
             for attr in sorted(self.arg[1].keys()):
                 str += self.attribute(attr, self.arg[1][attr])
-            if self.list[self.pos + 1].end and self.formatter.compress:
+            if self.list[self.pos + 1].end and (self.formatter.compress or self.formatter.selfclose):
                 str += "/>"
             else:
                 str += ">"
@@ -748,9 +752,10 @@ def cli_usage(msg=""):
     sys.stderr.write(msg + "\n")
     sys.stderr.write(
         'Usage: xmlformat [--preserve "pre,literal"] [--blanks]\
- [--compress] [--indent num] [--indent-char char] [--outfile file]\
- [--encoding enc] [--outencoding enc] [--disable-inlineformatting]\
- [--overwrite] [--disable-correction] [--help] <--infile file | file | - >\n'
+ [--compress] [--selfclose] [--indent num] [--indent-char char]\
+ [--outfile file] [--encoding enc] [--outencoding enc]\
+ [--disable-inlineformatting] [--overwrite] [--disable-correction]\
+ [--help] <--infile file | file | - >\n'
     )
     sys.exit(2)
 
@@ -765,6 +770,7 @@ def cli():
     preserve = []
     blanks = False
     compress = DEFAULT_COMPRESS
+    selfclose = DEFAULT_SELFCLOSE
     infile = None
     encoding = DEFAULT_ENCODING_INPUT
     outencoding = DEFAULT_ENCODING_OUTPUT
@@ -776,6 +782,7 @@ def cli():
             "",
             [
                 "compress",
+                "selfclose",
                 "disable-correction",
                 "disable-inlineformatting",
                 "encoding=",
@@ -803,6 +810,8 @@ def cli():
             cli_usage()
         elif key in ["--compress"]:
             compress = True
+        elif key in ["--selfclose"]:
+            selfclose = True
         elif key in ["--outfile"]:
             outfile = value
         elif key in ["--infile"]:
@@ -825,6 +834,7 @@ def cli():
             preserve=preserve,
             blanks=blanks,
             compress=compress,
+            selfclose=selfclose,
             encoding_input=encoding,
             encoding_output=outencoding,
             indent_char=indent_char,
