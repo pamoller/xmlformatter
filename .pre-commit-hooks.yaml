@@ -1,0 +1,8 @@
+-   id: xml-formatter
+    name: Format XML
+    description: This hook formats XML.
+    language: python
+    types: [xml]
+    entry: xmlformat
+    args:
+      - "--overwrite"
