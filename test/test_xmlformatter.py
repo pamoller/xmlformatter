@@ -91,6 +91,10 @@ class TestXmlFormatter(unittest.TestCase):
 		shutil.copyfile("t1.xml", "t1_copy.xml")
 		os.system("xmlformat --overwrite t1_copy.xml")
 		self.assertEqual(self.readfile("t1_copy.xml"), self.readfile("t1_pretty.xml"))
+
+	def test_newline_at_eof(self):
+		self.formatter = xmlformatter.Formatter(eof_newline=True)
+		self.assertEqual(self.formatter.format_file("t28.xml"), self.readfile("t28_pretty_with_eof_newline.xml"))
 	
 
 	#TODO cmd testing

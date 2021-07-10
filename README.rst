@@ -159,6 +159,12 @@ Skip formatting for all elements listed in preserve and all their descendants.
 
 Keep blank lines. Multiple lines are collapsed into one.
 
+::
+
+    eof_newline ::= False
+
+Add a single newline character at the end of each file
+
 =======
 Methods
 =======
