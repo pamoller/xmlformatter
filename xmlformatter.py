@@ -17,6 +17,7 @@ DEFAULT_INDENT_CHAR = " "
 DEFAULT_INLINE = True
 DEFAULT_ENCODING_INPUT = None
 DEFAULT_ENCODING_OUTPUT = None
+DEFAULT_EOF_NEWLINE = False
 
 
 class Formatter:
@@ -35,6 +36,7 @@ class Formatter:
         encoding_output=DEFAULT_ENCODING_OUTPUT,
         inline=DEFAULT_INLINE,
         correct=DEFAULT_CORRECT,
+        eof_newline=DEFAULT_EOF_NEWLINE,
     ):
         # Minify the XML document:
         self.compress = compress
@@ -56,6 +58,8 @@ class Formatter:
         self.preserve = preserve
         # Preserve blanks lines (collapse multiple into one)
         self.blanks = blanks
+        # Always add a newline character at EOF
+        self.eof_newline = eof_newline
 
     @property
     def encoding_effective(self, enc=None):
@@ -176,6 +180,8 @@ class Formatter:
             result = ""
             for tk in iter(self):
                 result += str(tk)
+            if self.formatter.eof_newline and not result.endswith("\n"):
+                result += "\n"
             return result
 
         def append(self, tk):
@@ -755,6 +761,7 @@ def cli_usage(msg=""):
  [--compress] [--selfclose] [--indent num] [--indent-char char]\
  [--outfile file] [--encoding enc] [--outencoding enc]\
  [--disable-inlineformatting] [--overwrite] [--disable-correction]\
+ [--eof-newline]\
  [--help] <--infile file | file | - >\n'
     )
     sys.exit(2)
@@ -776,6 +783,7 @@ def cli():
     outencoding = DEFAULT_ENCODING_OUTPUT
     inline = DEFAULT_INLINE
     correct = DEFAULT_CORRECT
+    eof_newline = DEFAULT_EOF_NEWLINE
     try:
         opts, args = getopt.getopt(
             sys.argv[1:],
@@ -795,6 +803,7 @@ def cli():
                 "overwrite",
                 "preserve=",
                 "blanks",
+                "eof-newline"
             ],
         )
     except getopt.GetoptError as err:
@@ -828,6 +837,8 @@ def cli():
             correct = False
         elif key in ["--overwrite"]:
             overwrite = True
+        elif key in ["--eof-newline"]:
+            eof_newline = True
     try:
         formatter = Formatter(
             indent=indent,
@@ -840,6 +851,7 @@ def cli():
             indent_char=indent_char,
             inline=inline,
             correct=correct,
+            eof_newline=eof_newline,
         )
         input_file = None
         if infile:
