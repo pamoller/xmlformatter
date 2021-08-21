@@ -17,7 +17,7 @@ jobs:
         cd test && python test_xmlformatter.py
     - name: Build distribution
       run: >-
-        pyhthon setup.py sdist
+        python setup.py sdist
     - name: Publish package to Pypi
       if: startsWith(github.ref, 'ref/tags')
       uses: pypa/gh-action-pypi-publish@master
