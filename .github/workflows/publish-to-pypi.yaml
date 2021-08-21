@@ -14,7 +14,7 @@ jobs:
         python-version: 3.7
     - name: Test the software
       run: >-
-        cd test && python test_xmlformatter.py
+        cd test && python --m unittest -t .. test_xmlformatter.py
     - name: Build distribution
       run: >-
         pyhthon setup.py sdist
