@@ -11,7 +11,9 @@ setup(
     description = 'Format and compress XML documents',
     long_description = open('README.rst', 'r').read(),
     py_modules = ['xmlformatter'],
-    scripts = ['bin/xmlformat'],
+    entry_points = {
+        'console_scripts': ['xmlformat=xmlformatter:cli'],
+    },
     classifiers = [
      "Programming Language :: Python :: 2",
      "Programming Language :: Python :: 2.6",
