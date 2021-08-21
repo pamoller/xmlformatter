@@ -1,7 +1,7 @@
 import io
 import os
 import unittest
-import xmlformatter
+from context import xmlformatter
 import shutil
 
 class TestXmlFormatter(unittest.TestCase):
