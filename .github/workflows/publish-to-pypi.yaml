@@ -1,0 +1,25 @@
+name: Publish distribution to PyPi
+
+on: push
+
+jobs:
+  build-n-publish:
+    name: Build and publish Python distribution to PyPi
+    runs-on: ubuntu-18.4
+    steps:
+    - uses: actions/checkout@master
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with: 
+        python-version: 3.7
+    - name: Test the software
+      run: >-
+        cd test && python test_xmlformatter.py
+    -name: Build distribution
+      run: >-
+        pyhthon setup.py sdist
+    -name: Publish package to Pypi
+      if: startsWith(github.ref, 'ref/tags')
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        password: ${{secrets.PYPI_API_TOKEN}}
