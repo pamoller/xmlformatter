@@ -769,7 +769,6 @@ def cli_usage(msg=""):
 
 def cli():
     """ Launch xmlformatter from command line. """
-    res = None
     indent = DEFAULT_INDENT
     indent_char = DEFAULT_INDENT_CHAR
     outfile = None
@@ -853,16 +852,14 @@ def cli():
             correct=correct,
             eof_newline=eof_newline,
         )
-        input_file = None
         if infile:
-            input_file = infile
-            res = formatter.format_file(input_file)
+            save_formatter_result(formatter.format_file(infile), formatter, overwrite, infile, outfile)
         elif len(args) > 0:
             if args[0] == "-":
-                res = formatter.format_string("".join(sys.stdin.readlines()))
+                save_formatter_result(formatter.format_string("".join(sys.stdin.readlines())), formatter, overwrite, None, outfile)
             else:
-                input_file = args[0]
-                res = formatter.format_file(input_file)
+                for input_file in args:
+                    save_formatter_result(formatter.format_file(input_file), formatter, overwrite, input_file, outfile)
 
     except xml.parsers.expat.ExpatError as err:
         cli_usage("XML error: %s" % err)
@@ -871,6 +868,7 @@ def cli():
     except:
         cli_usage("Unkonwn error")
 
+def save_formatter_result(res, formatter, overwrite, input_file, outfile):
     if overwrite:
         formatter.enc_output(input_file, res)
     else:
