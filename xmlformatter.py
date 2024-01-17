@@ -6,7 +6,7 @@ import re
 import sys
 import xml.parsers.expat
 
-__version__ = "0.2.5"
+__version__ = "0.2.6"
 
 DEFAULT_BLANKS = False
 DEFAULT_COMPRESS = False

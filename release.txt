@@ -1,0 +1,2 @@
+version v0.2.6 
+	* accept https://github.com/pamoller/xmlformatter/pull/13 
