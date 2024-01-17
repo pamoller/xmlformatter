@@ -41,8 +41,8 @@ jobs:
         path: dist/
   
   publish-to-pypi:
-    if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
-    name: Publish Python 🐍 distribution 📦 to PyPI
+    # if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
+    name: Publish Python 🐍 distribution 📦 to PyPI ${{ github.ref }}
     needs:
     - build
     runs-on: ubuntu-latest
