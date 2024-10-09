@@ -468,7 +468,7 @@ class Formatter:
 
         def attribute(self, key, value):
             if key and value:
-                return ' %s="%s"' % (key, value)
+                return ' %s="%s"' % (key, value.replace('&', '&amp;').replace('<', '&lt;'))
             elif key:
                 return ' %s=""' % (key)
             return ""
@@ -722,6 +722,7 @@ class Formatter:
             if self.preserve in [0, 1] and self.indent:
                 str += self.indent_insert()
             str += "<%s" % self.arg[0]
+            # see issue 4: for attr in self.arg[1].keys():
             for attr in sorted(self.arg[1].keys()):
                 str += self.attribute(attr, self.arg[1][attr])
             if self.list[self.pos + 1].end and (self.formatter.compress or self.formatter.selfclose):
