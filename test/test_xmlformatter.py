@@ -37,6 +37,10 @@ class TestXmlFormatter(unittest.TestCase):
 		self.assertEqual(self.formatter.format_file("t27.xml"), self.readfile("t27.xml"))
 		self.assertEqual(self.formatter.format_file("t28.xml"), self.readfile("t28_pretty.xml"))
 		self.assertEqual(self.formatter.format_file("t31.xml"), self.readfile("t31_pretty.xml"))
+		#self.assertEqual(self.formatter.format_file("t32.xml"), self.readfile("t32_pretty.xml"))
+		#self.assertEqual(self.formatter.format_file("t33.xml"), self.readfile("t33_pretty.xml"))
+		self.assertEqual(self.formatter.format_file("t34.xml"), self.readfile("t34_pretty.xml"))
+		self.assertEqual(self.formatter.format_file("t35.xml"), self.readfile("t35_pretty.xml"))
 
 	def test_disable_inline_formatting(self):
 		self.formatter = xmlformatter.Formatter(inline=False)
@@ -77,7 +81,6 @@ class TestXmlFormatter(unittest.TestCase):
 		self.assertEqual(self.formatter.format_file("t16.xml"), self.readfile("t16_compressed.xml"))
 		self.assertEqual(self.formatter.format_file("t17.xml"), self.readfile("t17_compressed.xml"))
 		self.assertEqual(self.formatter.format_file("t20.xml"), self.readfile("t20_compressed.xml"))
-		#self.assertEqual(self.formatter.format_file("t32.xml"), self.readfile("t32.xml"))
 
 	def test_compressed_precede(self):
 		self.formatter = xmlformatter.Formatter(preserve=["precede"], compress=True)
