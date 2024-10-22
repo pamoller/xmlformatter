@@ -98,7 +98,7 @@ class Formatter:
     def format_string(self, xmldoc=""):
         """ Format a XML document given by xmldoc """
         token_list = Formatter.TokenList(self)
-        token_list.parser.Parse(xmldoc)
+        token_list.parser.Parse(xmldoc, True)
         return self.enc_encode(str(token_list))
 
     def format_file(self, file):
