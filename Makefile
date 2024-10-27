@@ -2,11 +2,11 @@ all: sdist install regress
 
 sdist:
 	rm -f MANIFEST
-	python setup.py sdist
+	python3 setup.py sdist
 	
 install:
 	python setup.py install
-	rm -rf /usr/lib/python2.6/site-packages/xmlformatter/
+	# rm -rf /usr/lib/python2.6/site-packages/xmlformatter/
 
 register: regress
 	python setup.py register

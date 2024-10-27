@@ -1,1 +1,1 @@
-<ogc:Filter someattrib="example with encoded chars &lt; &gt; that should stay encoded"></ogc:Filter>
+<ogc:Filter someattrib="example with encoded chars &lt; &gt; &quot; &amp; &apos; that should stay encoded"></ogc:Filter>

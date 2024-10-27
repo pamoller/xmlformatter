@@ -1,1 +1,1 @@
-<root z="abc &lt; def &amp; ghi"></root>
+<root z="&quot;abc &lt; def &amp; ghi"></root>

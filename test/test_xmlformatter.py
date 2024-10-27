@@ -37,8 +37,6 @@ class TestXmlFormatter(unittest.TestCase):
 		self.assertEqual(self.formatter.format_file("t27.xml"), self.readfile("t27.xml"))
 		self.assertEqual(self.formatter.format_file("t28.xml"), self.readfile("t28_pretty.xml"))
 		self.assertEqual(self.formatter.format_file("t31.xml"), self.readfile("t31_pretty.xml"))
-		#self.assertEqual(self.formatter.format_file("t32.xml"), self.readfile("t32_pretty.xml"))
-		#self.assertEqual(self.formatter.format_file("t33.xml"), self.readfile("t33_pretty.xml"))
 		self.assertEqual(self.formatter.format_file("t34.xml"), self.readfile("t34_pretty.xml"))
 		self.assertEqual(self.formatter.format_file("t35.xml"), self.readfile("t35_pretty.xml"))
 
@@ -105,6 +103,14 @@ class TestXmlFormatter(unittest.TestCase):
 	#	os.system("xmlformat --infile t1.xml --outfile t1_out.xml");
 	#	#self.assertEqual(self.readfile("t1.xml"), self.readfile("t1_out.xml"));
 	#	self.assertTrue(True)
+
+	def test_decode_attribute_entity_refs(self):
+		self.formatter = xmlformatter.Formatter(decode_attribute_entity_refs=True)
+		self.assertEqual(self.formatter.format_file("t32.xml"), self.readfile("t32_pretty.xml"))
+	
+	def test_attribute_order(self):
+		self.formatter = xmlformatter.Formatter(preserve_attributes=True)
+		self.assertEqual(self.formatter.format_file("t33.xml"), self.readfile("t33_pretty.xml"))
 
 
 if __name__ == '__main__':

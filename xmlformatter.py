@@ -5,8 +5,9 @@ import getopt
 import re
 import sys
 import xml.parsers.expat
+import html
 
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 
 DEFAULT_BLANKS = False
 DEFAULT_COMPRESS = False
@@ -18,6 +19,8 @@ DEFAULT_INLINE = True
 DEFAULT_ENCODING_INPUT = None
 DEFAULT_ENCODING_OUTPUT = None
 DEFAULT_EOF_NEWLINE = False
+DEFAULT_PERSERVE_ATTRIBUTES = False
+DEFAULT_DECODE_ATTRIBUTE_ENTITY_REFS = False
 
 
 class Formatter:
@@ -37,6 +40,8 @@ class Formatter:
         inline=DEFAULT_INLINE,
         correct=DEFAULT_CORRECT,
         eof_newline=DEFAULT_EOF_NEWLINE,
+        preserve_attributes=DEFAULT_PERSERVE_ATTRIBUTES,
+        decode_attribute_entity_refs=DEFAULT_DECODE_ATTRIBUTE_ENTITY_REFS,
     ):
         # Minify the XML document:
         self.compress = compress
@@ -60,6 +65,10 @@ class Formatter:
         self.blanks = blanks
         # Always add a newline character at EOF
         self.eof_newline = eof_newline
+        # Preserve the order of attributes
+        self.preserve_attributes = preserve_attributes
+        # Decode entity references in attributes
+        self.decode_attribute_entity_refs = decode_attribute_entity_refs
 
     @property
     def encoding_effective(self, enc=None):
@@ -132,6 +141,8 @@ class Formatter:
             )
             self.parser.specified_attributes = 1
             self.parser.buffer_text = True
+            self.parser.SetParamEntityParsing(xml.parsers.expat.XML_PARAM_ENTITY_PARSING_NEVER)
+
             # Push tokens to buffer:
             for pattern in [
                 "XmlDecl%s",
@@ -468,7 +479,11 @@ class Formatter:
 
         def attribute(self, key, value):
             if key and value:
-                return ' %s="%s"' % (key, value.replace('&', '&amp;').replace('<', '&lt;'))
+                if not self.formatter.decode_attribute_entity_refs:
+                    return ' %s="%s"' % (key, value.replace('&', '&amp;').replace('<', '&lt;').replace('"', '&quot;'))
+                else:
+                    return ' %s="%s"' % (key, value.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", "&apos;"))  
+                
             elif key:
                 return ' %s=""' % (key)
             return ""
@@ -723,7 +738,11 @@ class Formatter:
                 str += self.indent_insert()
             str += "<%s" % self.arg[0]
             # see issue 4: for attr in self.arg[1].keys():
-            for attr in sorted(self.arg[1].keys()):
+            if (self.formatter.preserve_attributes):
+                att_list = self.arg[1].keys()
+            else:
+                att_list = sorted(self.arg[1].keys())
+            for attr in att_list:
                 str += self.attribute(attr, self.arg[1][attr])
             if self.list[self.pos + 1].end and (self.formatter.compress or self.formatter.selfclose):
                 str += "/>"
@@ -762,7 +781,7 @@ def cli_usage(msg=""):
  [--compress] [--selfclose] [--indent num] [--indent-char char]\
  [--outfile file] [--encoding enc] [--outencoding enc]\
  [--disable-inlineformatting] [--overwrite] [--disable-correction]\
- [--eof-newline]\
+ [--eof-newline] [--preserve-attributes] [--decode-attribute-entity-refs]\
  [--help] <--infile file | file | - >\n'
     )
     sys.exit(2)
@@ -784,6 +803,8 @@ def cli():
     inline = DEFAULT_INLINE
     correct = DEFAULT_CORRECT
     eof_newline = DEFAULT_EOF_NEWLINE
+    preserve_attributes = False
+    decode_attribute_entity_refs = False
     try:
         opts, args = getopt.getopt(
             sys.argv[1:],
@@ -803,7 +824,9 @@ def cli():
                 "overwrite",
                 "preserve=",
                 "blanks",
-                "eof-newline"
+                "eof-newline",
+                "preserve-attributes",
+                "decode-attribute-entity-refs",
             ],
         )
     except getopt.GetoptError as err:
@@ -839,6 +862,11 @@ def cli():
             overwrite = True
         elif key in ["--eof-newline"]:
             eof_newline = True
+        elif key in ["--preserve-attributes"]:
+            preserve_attributes = True
+        elif key in ["--decode-attribute-entity-refs"]:
+            decode_attribute_entity_refs = True
+            break
     try:
         formatter = Formatter(
             indent=indent,
@@ -852,6 +880,8 @@ def cli():
             inline=inline,
             correct=correct,
             eof_newline=eof_newline,
+            preserve_attributes=preserve_attributes,
+            decode_attribute_entity_refs=decode_attribute_entity_refs,
         )
         if infile:
             save_formatter_result(formatter.format_file(infile), formatter, overwrite, infile, outfile)

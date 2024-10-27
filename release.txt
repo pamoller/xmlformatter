@@ -1,2 +1,7 @@
+version v0.2.7
+	* accept https://github.com/pamoller/xmlformatter/pull/16
+	* add --preserve-attributes (https://github.com/pamoller/xmlformatter/issues/15)
+	* add --decode-attribute-entity-refs (https://github.com/pamoller/xmlformatter/issues/2)
+
 version v0.2.6 
 	* accept https://github.com/pamoller/xmlformatter/pull/13 
