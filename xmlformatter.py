@@ -7,7 +7,7 @@ import sys
 import xml.parsers.expat
 import html
 
-__version__ = "0.2.7"
+__version__ = "0.2.8"
 
 DEFAULT_BLANKS = False
 DEFAULT_COMPRESS = False
