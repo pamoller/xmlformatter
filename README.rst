@@ -169,13 +169,13 @@ Add a single newline character at the end of each file
 
     preserve-attributes ::= False
 
-Preserve the order of attirbutes
+Preserve the order of attributes
 
 ::
     
-        decode-attribute-entity-refs ::= False
+        encode-attributes ::= False
 
-Decode all entity references in attribute values. NOTE: xmlformatter uses the expat parser library internally, but this project decided to derefernce all entity references (e.g. &gt;) for attribute values
+Encode entity references in attribute values. NOTE: xmlformatter uses the expat parser library internally, but this project decided to decode all entity references (e.g. &gt;) for attribute values
 
  
 
@@ -203,7 +203,7 @@ Cmd
 
     xmlformat [--preserve "pre,literal"] [--blanks] [--compress] [--selfclose] [--indent num] [--indent-char char]
               [--overwrite] [--outfile file] [--encoding enc] [--outencoding enc] [--disable-inlineformatting] 
-              [--dispable-correction] [--preserve-attributes] [--decode-attribute-entity-refs] [--help] < --infile file | file | - >
+              [--dispable-correction] [--preserve-attributes] [--encode-attributes] [--help] < --infile file | file | - >
 
 xmlformat can read from STDIN, like:
 

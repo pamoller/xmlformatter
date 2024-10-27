@@ -20,8 +20,7 @@ DEFAULT_ENCODING_INPUT = None
 DEFAULT_ENCODING_OUTPUT = None
 DEFAULT_EOF_NEWLINE = False
 DEFAULT_PERSERVE_ATTRIBUTES = False
-DEFAULT_DECODE_ATTRIBUTE_ENTITY_REFS = False
-
+DEFAULT_ENCODE_ATTRIBUTES = False
 
 class Formatter:
     # Use internal encoding:
@@ -41,7 +40,7 @@ class Formatter:
         correct=DEFAULT_CORRECT,
         eof_newline=DEFAULT_EOF_NEWLINE,
         preserve_attributes=DEFAULT_PERSERVE_ATTRIBUTES,
-        decode_attribute_entity_refs=DEFAULT_DECODE_ATTRIBUTE_ENTITY_REFS,
+        encode_attributes=DEFAULT_ENCODE_ATTRIBUTES,
     ):
         # Minify the XML document:
         self.compress = compress
@@ -68,7 +67,7 @@ class Formatter:
         # Preserve the order of attributes
         self.preserve_attributes = preserve_attributes
         # Decode entity references in attributes
-        self.decode_attribute_entity_refs = decode_attribute_entity_refs
+        self.encode_attributes = encode_attributes
 
     @property
     def encoding_effective(self, enc=None):
@@ -479,7 +478,7 @@ class Formatter:
 
         def attribute(self, key, value):
             if key and value:
-                if not self.formatter.decode_attribute_entity_refs:
+                if not self.formatter.encode_attributes:
                     return ' %s="%s"' % (key, value.replace('&', '&amp;').replace('<', '&lt;').replace('"', '&quot;'))
                 else:
                     return ' %s="%s"' % (key, value.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", "&apos;"))  
@@ -781,7 +780,7 @@ def cli_usage(msg=""):
  [--compress] [--selfclose] [--indent num] [--indent-char char]\
  [--outfile file] [--encoding enc] [--outencoding enc]\
  [--disable-inlineformatting] [--overwrite] [--disable-correction]\
- [--eof-newline] [--preserve-attributes] [--decode-attribute-entity-refs]\
+ [--eof-newline] [--preserve-attributes] [--encode-attributes]\
  [--help] <--infile file | file | - >\n'
     )
     sys.exit(2)
@@ -804,7 +803,7 @@ def cli():
     correct = DEFAULT_CORRECT
     eof_newline = DEFAULT_EOF_NEWLINE
     preserve_attributes = False
-    decode_attribute_entity_refs = False
+    encode_attributes = False
     try:
         opts, args = getopt.getopt(
             sys.argv[1:],
@@ -826,7 +825,7 @@ def cli():
                 "blanks",
                 "eof-newline",
                 "preserve-attributes",
-                "decode-attribute-entity-refs",
+                "encode-attributes",
             ],
         )
     except getopt.GetoptError as err:
@@ -864,8 +863,8 @@ def cli():
             eof_newline = True
         elif key in ["--preserve-attributes"]:
             preserve_attributes = True
-        elif key in ["--decode-attribute-entity-refs"]:
-            decode_attribute_entity_refs = True
+        elif key in ["--encode-attributes"]:
+            encode_attributes = True
             break
     try:
         formatter = Formatter(
@@ -881,7 +880,7 @@ def cli():
             correct=correct,
             eof_newline=eof_newline,
             preserve_attributes=preserve_attributes,
-            decode_attribute_entity_refs=decode_attribute_entity_refs,
+            encode_attributes=encode_attributes,
         )
         if infile:
             save_formatter_result(formatter.format_file(infile), formatter, overwrite, infile, outfile)

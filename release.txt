@@ -1,3 +1,6 @@
+version: v0.2.8
+	* rename --decode-attribute-entity-refs to --encode-attributes
+
 version v0.2.7
 	* accept https://github.com/pamoller/xmlformatter/pull/16
 	* add --preserve-attributes (https://github.com/pamoller/xmlformatter/issues/15)

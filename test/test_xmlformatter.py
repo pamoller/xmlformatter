@@ -105,7 +105,7 @@ class TestXmlFormatter(unittest.TestCase):
 	#	self.assertTrue(True)
 
 	def test_decode_attribute_entity_refs(self):
-		self.formatter = xmlformatter.Formatter(decode_attribute_entity_refs=True)
+		self.formatter = xmlformatter.Formatter(encode_attributes=True)
 		self.assertEqual(self.formatter.format_file("t32.xml"), self.readfile("t32_pretty.xml"))
 	
 	def test_attribute_order(self):
