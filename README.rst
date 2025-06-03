@@ -203,7 +203,7 @@ Cmd
 
     xmlformat [--preserve "pre,literal"] [--blanks] [--compress] [--selfclose] [--indent num] [--indent-char char]
               [--overwrite] [--outfile file] [--encoding enc] [--outencoding enc] [--disable-inlineformatting] 
-              [--dispable-correction] [--preserve-attributes] [--encode-attributes] [--help] < --infile file | file | - >
+              [--disable-correction] [--preserve-attributes] [--encode-attributes] [--help] < --infile file | file | - >
 
 xmlformat can read from STDIN, like:
 
