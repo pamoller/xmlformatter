@@ -1,0 +1,3 @@
+<configuration>
+    <add key="foo" value="bar" />
+</configuration>

@@ -112,6 +112,14 @@ class TestXmlFormatter(unittest.TestCase):
 		self.formatter = xmlformatter.Formatter(preserve_attributes=True)
 		self.assertEqual(self.formatter.format_file("t33.xml"), self.readfile("t33_pretty.xml"))
 
+	def test_selfclose_space(self):
+		# Default selfclose (no space): regression check for unchanged behavior.
+		self.formatter = xmlformatter.Formatter(selfclose=True, indent="4")
+		self.assertEqual(self.formatter.format_file("t36.xml"), self.readfile("t36_selfclose.xml"))
+		# selfclose_space=True renders self-closing tags as `<foo />`.
+		self.formatter = xmlformatter.Formatter(selfclose=True, selfclose_space=True, indent="4")
+		self.assertEqual(self.formatter.format_file("t36.xml"), self.readfile("t36_selfclose_space.xml"))
+
 
 if __name__ == '__main__':
 	unittest.main()

@@ -119,6 +119,12 @@ Collapse ``<element></element>`` to ``<element/>``.
 
 ::
 
+    selfclose_space ::= False
+
+Render self-closing tags with a space before ``/>`` (e.g. ``<element />`` instead of ``<element/>``). Useful for XHTML and .NET/MSBuild config files.
+
+::
+
     correct ::= True
 
 Apply formatting rules to whitespaces.
@@ -201,7 +207,7 @@ Cmd
 
 ::
 
-    xmlformat [--preserve "pre,literal"] [--blanks] [--compress] [--selfclose] [--indent num] [--indent-char char]
+    xmlformat [--preserve "pre,literal"] [--blanks] [--compress] [--selfclose] [--selfclose-space] [--indent num] [--indent-char char]
               [--overwrite] [--outfile file] [--encoding enc] [--outencoding enc] [--disable-inlineformatting] 
               [--disable-correction] [--preserve-attributes] [--encode-attributes] [--help] < --infile file | file | - >
 
