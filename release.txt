@@ -1,3 +1,6 @@
+version: v0.2.9
+	* add --selfclose-space option for XHTML-style self-closing tagss
+
 version: v0.2.8
 	* rename --decode-attribute-entity-refs to --encode-attributes
 
